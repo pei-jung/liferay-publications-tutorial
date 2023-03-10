@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:hello:hello-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../hello-api/src/main/java"
+}
+
+group = "hello"
