@@ -15,6 +15,7 @@
 package hello.service.persistence;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
+import com.liferay.portal.kernel.service.persistence.change.tracking.CTPersistence;
 
 import hello.exception.NoSuchFooException;
 
@@ -34,7 +35,8 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public interface FooPersistence extends BasePersistence<Foo> {
+public interface FooPersistence
+	extends BasePersistence<Foo>, CTPersistence<Foo> {
 
 	/*
 	 * NOTE FOR DEVELOPERS:

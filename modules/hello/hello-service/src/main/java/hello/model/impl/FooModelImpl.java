@@ -73,13 +73,14 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 	public static final String TABLE_NAME = "FOO_Foo";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"mvccVersion", Types.BIGINT}, {"uuid_", Types.VARCHAR},
-		{"fooId", Types.BIGINT}, {"groupId", Types.BIGINT},
-		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
-		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP}, {"field1", Types.VARCHAR},
-		{"field2", Types.BOOLEAN}, {"field3", Types.INTEGER},
-		{"field4", Types.TIMESTAMP}, {"field5", Types.VARCHAR}
+		{"mvccVersion", Types.BIGINT}, {"ctCollectionId", Types.BIGINT},
+		{"uuid_", Types.VARCHAR}, {"fooId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
+		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
+		{"field1", Types.VARCHAR}, {"field2", Types.BOOLEAN},
+		{"field3", Types.INTEGER}, {"field4", Types.TIMESTAMP},
+		{"field5", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -87,6 +88,7 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 
 	static {
 		TABLE_COLUMNS_MAP.put("mvccVersion", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("ctCollectionId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("fooId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
@@ -103,7 +105,7 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table FOO_Foo (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,fooId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,field1 VARCHAR(75) null,field2 BOOLEAN,field3 INTEGER,field4 DATE null,field5 VARCHAR(75) null)";
+		"create table FOO_Foo (mvccVersion LONG default 0 not null,ctCollectionId LONG default 0 not null,uuid_ VARCHAR(75) null,fooId LONG not null,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,field1 VARCHAR(75) null,field2 BOOLEAN,field3 INTEGER,field4 DATE null,field5 VARCHAR(75) null,primary key (fooId, ctCollectionId))";
 
 	public static final String TABLE_SQL_DROP = "drop table FOO_Foo";
 
@@ -256,6 +258,9 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 		attributeGetterFunctions.put("mvccVersion", Foo::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Foo, Long>)Foo::setMvccVersion);
+		attributeGetterFunctions.put("ctCollectionId", Foo::getCtCollectionId);
+		attributeSetterBiConsumers.put(
+			"ctCollectionId", (BiConsumer<Foo, Long>)Foo::setCtCollectionId);
 		attributeGetterFunctions.put("uuid", Foo::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Foo, String>)Foo::setUuid);
@@ -315,6 +320,21 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 		}
 
 		_mvccVersion = mvccVersion;
+	}
+
+	@JSON
+	@Override
+	public long getCtCollectionId() {
+		return _ctCollectionId;
+	}
+
+	@Override
+	public void setCtCollectionId(long ctCollectionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_ctCollectionId = ctCollectionId;
 	}
 
 	@JSON
@@ -660,6 +680,7 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 		FooImpl fooImpl = new FooImpl();
 
 		fooImpl.setMvccVersion(getMvccVersion());
+		fooImpl.setCtCollectionId(getCtCollectionId());
 		fooImpl.setUuid(getUuid());
 		fooImpl.setFooId(getFooId());
 		fooImpl.setGroupId(getGroupId());
@@ -685,6 +706,8 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 
 		fooImpl.setMvccVersion(
 			this.<Long>getColumnOriginalValue("mvccVersion"));
+		fooImpl.setCtCollectionId(
+			this.<Long>getColumnOriginalValue("ctCollectionId"));
 		fooImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
 		fooImpl.setFooId(this.<Long>getColumnOriginalValue("fooId"));
 		fooImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
@@ -775,6 +798,8 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 		FooCacheModel fooCacheModel = new FooCacheModel();
 
 		fooCacheModel.mvccVersion = getMvccVersion();
+
+		fooCacheModel.ctCollectionId = getCtCollectionId();
 
 		fooCacheModel.uuid = getUuid();
 
@@ -908,6 +933,7 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 	}
 
 	private long _mvccVersion;
+	private long _ctCollectionId;
 	private String _uuid;
 	private long _fooId;
 	private long _groupId;
@@ -953,6 +979,7 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 		_columnOriginalValues = new HashMap<String, Object>();
 
 		_columnOriginalValues.put("mvccVersion", _mvccVersion);
+		_columnOriginalValues.put("ctCollectionId", _ctCollectionId);
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("fooId", _fooId);
 		_columnOriginalValues.put("groupId", _groupId);
@@ -991,31 +1018,33 @@ public class FooModelImpl extends BaseModelImpl<Foo> implements FooModel {
 
 		columnBitmasks.put("mvccVersion", 1L);
 
-		columnBitmasks.put("uuid_", 2L);
+		columnBitmasks.put("ctCollectionId", 2L);
 
-		columnBitmasks.put("fooId", 4L);
+		columnBitmasks.put("uuid_", 4L);
 
-		columnBitmasks.put("groupId", 8L);
+		columnBitmasks.put("fooId", 8L);
 
-		columnBitmasks.put("companyId", 16L);
+		columnBitmasks.put("groupId", 16L);
 
-		columnBitmasks.put("userId", 32L);
+		columnBitmasks.put("companyId", 32L);
 
-		columnBitmasks.put("userName", 64L);
+		columnBitmasks.put("userId", 64L);
 
-		columnBitmasks.put("createDate", 128L);
+		columnBitmasks.put("userName", 128L);
 
-		columnBitmasks.put("modifiedDate", 256L);
+		columnBitmasks.put("createDate", 256L);
 
-		columnBitmasks.put("field1", 512L);
+		columnBitmasks.put("modifiedDate", 512L);
 
-		columnBitmasks.put("field2", 1024L);
+		columnBitmasks.put("field1", 1024L);
 
-		columnBitmasks.put("field3", 2048L);
+		columnBitmasks.put("field2", 2048L);
 
-		columnBitmasks.put("field4", 4096L);
+		columnBitmasks.put("field3", 4096L);
 
-		columnBitmasks.put("field5", 8192L);
+		columnBitmasks.put("field4", 8192L);
+
+		columnBitmasks.put("field5", 16384L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

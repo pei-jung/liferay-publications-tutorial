@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.change.tracking.CTModel;
 
 import java.util.Date;
 
@@ -38,7 +39,7 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface FooModel
-	extends BaseModel<Foo>, GroupedModel, MVCCModel, ShardedModel,
+	extends BaseModel<Foo>, CTModel<Foo>, GroupedModel, MVCCModel, ShardedModel,
 			StagedAuditedModel {
 
 	/*
@@ -52,6 +53,7 @@ public interface FooModel
 	 *
 	 * @return the primary key of this foo
 	 */
+	@Override
 	public long getPrimaryKey();
 
 	/**
@@ -59,6 +61,7 @@ public interface FooModel
 	 *
 	 * @param primaryKey the primary key of this foo
 	 */
+	@Override
 	public void setPrimaryKey(long primaryKey);
 
 	/**
@@ -76,6 +79,22 @@ public interface FooModel
 	 */
 	@Override
 	public void setMvccVersion(long mvccVersion);
+
+	/**
+	 * Returns the ct collection ID of this foo.
+	 *
+	 * @return the ct collection ID of this foo
+	 */
+	@Override
+	public long getCtCollectionId();
+
+	/**
+	 * Sets the ct collection ID of this foo.
+	 *
+	 * @param ctCollectionId the ct collection ID of this foo
+	 */
+	@Override
+	public void setCtCollectionId(long ctCollectionId);
 
 	/**
 	 * Returns the uuid of this foo.

@@ -14,7 +14,11 @@
 
 package hello.service;
 
+import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.change.tracking.CTPersistence;
+
+import hello.model.Foo;
 
 /**
  * Provides a wrapper for {@link FooLocalService}.
@@ -45,7 +49,7 @@ public class FooLocalServiceWrapper
 	 * @return the foo that was added
 	 */
 	@Override
-	public hello.model.Foo addFoo(hello.model.Foo foo) {
+	public Foo addFoo(Foo foo) {
 		return _fooLocalService.addFoo(foo);
 	}
 
@@ -56,7 +60,7 @@ public class FooLocalServiceWrapper
 	 * @return the new foo
 	 */
 	@Override
-	public hello.model.Foo createFoo(long fooId) {
+	public Foo createFoo(long fooId) {
 		return _fooLocalService.createFoo(fooId);
 	}
 
@@ -82,7 +86,7 @@ public class FooLocalServiceWrapper
 	 * @return the foo that was removed
 	 */
 	@Override
-	public hello.model.Foo deleteFoo(hello.model.Foo foo) {
+	public Foo deleteFoo(Foo foo) {
 		return _fooLocalService.deleteFoo(foo);
 	}
 
@@ -98,7 +102,7 @@ public class FooLocalServiceWrapper
 	 * @throws PortalException if a foo with the primary key could not be found
 	 */
 	@Override
-	public hello.model.Foo deleteFoo(long fooId)
+	public Foo deleteFoo(long fooId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _fooLocalService.deleteFoo(fooId);
@@ -217,7 +221,7 @@ public class FooLocalServiceWrapper
 	}
 
 	@Override
-	public hello.model.Foo fetchFoo(long fooId) {
+	public Foo fetchFoo(long fooId) {
 		return _fooLocalService.fetchFoo(fooId);
 	}
 
@@ -229,7 +233,7 @@ public class FooLocalServiceWrapper
 	 * @return the matching foo, or <code>null</code> if a matching foo could not be found
 	 */
 	@Override
-	public hello.model.Foo fetchFooByUuidAndGroupId(String uuid, long groupId) {
+	public Foo fetchFooByUuidAndGroupId(String uuid, long groupId) {
 		return _fooLocalService.fetchFooByUuidAndGroupId(uuid, groupId);
 	}
 
@@ -258,7 +262,7 @@ public class FooLocalServiceWrapper
 	 * @throws PortalException if a foo with the primary key could not be found
 	 */
 	@Override
-	public hello.model.Foo getFoo(long fooId)
+	public Foo getFoo(long fooId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _fooLocalService.getFoo(fooId);
@@ -273,7 +277,7 @@ public class FooLocalServiceWrapper
 	 * @throws PortalException if a matching foo could not be found
 	 */
 	@Override
-	public hello.model.Foo getFooByUuidAndGroupId(String uuid, long groupId)
+	public Foo getFooByUuidAndGroupId(String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _fooLocalService.getFooByUuidAndGroupId(uuid, groupId);
@@ -291,7 +295,7 @@ public class FooLocalServiceWrapper
 	 * @return the range of foos
 	 */
 	@Override
-	public java.util.List<hello.model.Foo> getFoos(int start, int end) {
+	public java.util.List<Foo> getFoos(int start, int end) {
 		return _fooLocalService.getFoos(start, end);
 	}
 
@@ -303,7 +307,7 @@ public class FooLocalServiceWrapper
 	 * @return the matching foos, or an empty list if no matches were found
 	 */
 	@Override
-	public java.util.List<hello.model.Foo> getFoosByUuidAndCompanyId(
+	public java.util.List<Foo> getFoosByUuidAndCompanyId(
 		String uuid, long companyId) {
 
 		return _fooLocalService.getFoosByUuidAndCompanyId(uuid, companyId);
@@ -320,9 +324,9 @@ public class FooLocalServiceWrapper
 	 * @return the range of matching foos, or an empty list if no matches were found
 	 */
 	@Override
-	public java.util.List<hello.model.Foo> getFoosByUuidAndCompanyId(
+	public java.util.List<Foo> getFoosByUuidAndCompanyId(
 		String uuid, long companyId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<hello.model.Foo>
+		com.liferay.portal.kernel.util.OrderByComparator<Foo>
 			orderByComparator) {
 
 		return _fooLocalService.getFoosByUuidAndCompanyId(
@@ -378,8 +382,26 @@ public class FooLocalServiceWrapper
 	 * @return the foo that was updated
 	 */
 	@Override
-	public hello.model.Foo updateFoo(hello.model.Foo foo) {
+	public Foo updateFoo(Foo foo) {
 		return _fooLocalService.updateFoo(foo);
+	}
+
+	@Override
+	public CTPersistence<Foo> getCTPersistence() {
+		return _fooLocalService.getCTPersistence();
+	}
+
+	@Override
+	public Class<Foo> getModelClass() {
+		return _fooLocalService.getModelClass();
+	}
+
+	@Override
+	public <R, E extends Throwable> R updateWithUnsafeFunction(
+			UnsafeFunction<CTPersistence<Foo>, R, E> updateUnsafeFunction)
+		throws E {
+
+		return _fooLocalService.updateWithUnsafeFunction(updateUnsafeFunction);
 	}
 
 	@Override

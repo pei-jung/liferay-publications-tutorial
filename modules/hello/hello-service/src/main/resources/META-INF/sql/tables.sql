@@ -1,7 +1,8 @@
 create table FOO_Foo (
 	mvccVersion LONG default 0 not null,
+	ctCollectionId LONG default 0 not null,
 	uuid_ VARCHAR(75) null,
-	fooId LONG not null primary key,
+	fooId LONG not null,
 	groupId LONG,
 	companyId LONG,
 	userId LONG,
@@ -12,5 +13,6 @@ create table FOO_Foo (
 	field2 BOOLEAN,
 	field3 INTEGER,
 	field4 DATE null,
-	field5 VARCHAR(75) null
+	field5 VARCHAR(75) null,
+	primary key (fooId, ctCollectionId)
 );
