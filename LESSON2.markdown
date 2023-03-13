@@ -11,6 +11,8 @@ Change tracking an entity comprises of these parts:
 - Adding a TableReferenceDefinition
 - Adding a CTDisplayRenderer
 
+Run `gw deploy` to deploy the modules.
+
 ### Enable change tracking in the service.xml
 Change tracking leverages Service Builder.  Making something "change tracked" really just means adding the column ctCollectionId to the table. 
 
@@ -39,6 +41,10 @@ The goal of the TableReferenceDefinition is to define the relationship an entity
 A relationship should only be defined one time... meaning the parent defines it or the child defines it, who declares it is your goal.
 
 If the entity is created automatically, it should be defined by the parent.  If the child is created optionally at a later time, it should be declared most of the time unless creating it changes the parent in some way.
+
+- Create FooTableRefenceDefinition in hello-service
+- Declare the children
+- Declare the parents
 
 ### Adding a CTDisplayRenderer
 Finally we need to create a CTDisplayRenderer.  This is the class that generates the previews when viewing changes.
