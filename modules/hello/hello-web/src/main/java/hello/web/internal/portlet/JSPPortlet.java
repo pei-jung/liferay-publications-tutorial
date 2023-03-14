@@ -14,6 +14,7 @@
 
 package hello.web.internal.portlet;
 
+import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -136,7 +137,7 @@ public class JSPPortlet extends MVCPortlet {
 			PortalException.class);
 
 		if (fooId <= 0) {
-			Foo foo = getFooLocalService().createFoo(0);
+			Foo foo = getFooLocalService().createFoo(_counterLocalService.increment());
 
 			foo.setField1(field1);
 			foo.setField2(field2);
@@ -162,6 +163,9 @@ public class JSPPortlet extends MVCPortlet {
 	}
 
 	@Reference
-	private volatile FooLocalService _fooLocalService;
+	private CounterLocalService _counterLocalService;
+
+	@Reference
+	private FooLocalService _fooLocalService;
 
 }
